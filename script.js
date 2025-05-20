@@ -1,13 +1,15 @@
-function Gameboard() {
+const gameboard = (function () {
   const size = 3;
   const board = [];
 
-  for (let i = 0; i < size; i++) {
-    board[i] = [];
-    for (let j = 0; j < size; j++) {
-      board[i].push(Cell());
+  const createEmptyBoard = () => {
+    for (let i = 0; i < size; i++) {
+      board[i] = [];
+      for (let j = 0; j < size; j++) {
+        board[i].push(Cell());
+      }
     }
-  }
+  };
 
   const getBoard = () => board;
 
@@ -17,14 +19,19 @@ function Gameboard() {
     board[row][column].setValue(player);
   };
 
+  const clearBoard = () => createEmptyBoard();
+
   const printBoard = () => {
     for (let i = 0; i < size; i++) {
       console.log(board[i].map((cell) => cell.getValue()).join(" "));
     }
   };
 
-  return { getBoard, selectCell, printBoard };
-}
+  //inital creation of the board
+  createEmptyBoard();
+
+  return { getBoard, selectCell, clearBoard, printBoard };
+})();
 
 function Cell() {
   let value = " ";
