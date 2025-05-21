@@ -19,9 +19,13 @@ body {
   width: 550px;
   height: 600px;
 
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
+}
+
+.game-wrapper.active {
+  display: flex;
 }
 
 .board-wrapper {
@@ -73,4 +77,14 @@ body {
   left: 0;
   background: rgb(100, 100, 100, 0.4);
   position: absolute;
+}
+
+.start-game {
+  display: none;
+}
+
+.start-game.active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
