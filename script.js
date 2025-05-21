@@ -85,7 +85,7 @@ function GameController(player1 = "Player One", player2 = "Player Two") {
       activePlayer.sign === currentBoard[row][(column + 1) % 3].getValue() &&
       activePlayer.sign === currentBoard[row][(column + 2) % 3].getValue()
     )
-      return "win";
+      return { status: "win", condition: `row ${row}` };
 
     //check for column win
     let currentColumn = currentBoard
@@ -96,7 +96,7 @@ function GameController(player1 = "Player One", player2 = "Player Two") {
       currentColumn[0] === currentColumn[1] &&
       currentColumn[0] === currentColumn[2]
     )
-      return "win";
+      return { status: "win", condition: `column ${row}` };
 
     //check diagonals
 
@@ -117,13 +117,13 @@ function GameController(player1 = "Player One", player2 = "Player Two") {
       diagonal1[0] === diagonal1[1] &&
       diagonal1[0] === diagonal1[2]
     )
-      return "win";
+      return { status: "win", condition: `diagonal 1` };
     if (
       diagonal2.includes(activePlayer.sign) &&
       diagonal2[0] === diagonal2[1] &&
       diagonal2[0] === diagonal2[2]
     )
-      return "win";
+      return { status: "win", condition: `diagonal 2` };
 
     //check for tie
     if (
@@ -132,7 +132,7 @@ function GameController(player1 = "Player One", player2 = "Player Two") {
         .map((cell) => cell.getValue())
         .includes(" ")
     )
-      return "tie";
+      return { status: "tie" };
 
     return "";
   };
@@ -141,24 +141,25 @@ function GameController(player1 = "Player One", player2 = "Player Two") {
     let playerMove = gameboard.selectCell(row, column, activePlayer.sign);
 
     if (!playerMove) {
-      console.log("Invalid move!");
-      return false;
+      return;
     }
 
     printNewRound();
 
     const currentStatus = checkStatus(row, column);
+    let msg;
 
-    if (!currentStatus) {
+    if (!currentStatus.status) {
       switchPlayer();
-    } else if (currentStatus === "win") {
-      console.log(`${activePlayer.name} won!`);
+      msg = `${activePlayer.name}'s turn.`;
+    } else if (currentStatus.status === "win") {
+      msg = `${activePlayer.name} won!`;
       newGame();
     } else {
-      console.log("It's a tie!");
+      msg = "It's a tie!";
       newGame();
     }
-    return true;
+    return { msg, currentStatus };
   };
 
   return { getActivePlayer, playRound, newGame };
