@@ -181,8 +181,12 @@ const screenController = (function () {
       row.forEach((cell, indexColumn) => {
         const newCell = document.createElement("button");
         newCell.classList = "cell";
+
         newCell.dataset.row = indexRow;
         newCell.dataset.column = indexColumn;
+        if (indexRow === indexColumn) newCell.dataset.diagonal1 = true;
+        if (indexRow + indexColumn === 2) newCell.dataset.diagonal2 = true;
+
         newCell.textContent = cell.getValue();
         boardDiv.appendChild(newCell);
       });
