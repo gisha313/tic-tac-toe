@@ -49,6 +49,7 @@ body {
   justify-content: center;
   font-weight: 400;
   font-size: calc(500px / 3);
+  font-family: inherit;
 
   transition: all 200ms;
 }
