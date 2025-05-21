@@ -163,14 +163,14 @@ function GameController(player1 = "Player One", player2 = "Player Two") {
   return { getActivePlayer, playRound, newGame };
 }
 
-const screenController = (function () {
+function screenController(
+  playerOneName = "Player One",
+  playerTwoName = "Player Two"
+) {
   const boardDiv = document.querySelector(".board");
-  const playAgainBtn = document.querySelector(".play-again");
+  const playAgainBtn = document.querySelector(".play-again-btn");
   const msgDiv = document.querySelector(".msg");
   const overlayDiv = document.querySelector(".overlay");
-
-  let playerOneName = "Player X";
-  let playerTwoName = "Player O";
 
   const game = GameController(playerOneName, playerTwoName);
 
@@ -234,6 +234,7 @@ const screenController = (function () {
 
   const restartGame = () => {
     game.newGame();
+    displayMsg(`${game.getActivePlayer().name}'s turn.`);
     overlayDiv.style.display = "none";
     updateBoard("");
   };
@@ -254,8 +255,26 @@ const screenController = (function () {
     }
   }
 
-  displayMsg(`${game.getActivePlayer().name}'s turn!`);
-  updateBoard("");
+  restartGame();
 
   return { restartGame };
+}
+
+const startGameController = (function () {
+  const playerOneInput = document.querySelector("#player-one");
+  const playerTwoInput = document.querySelector("#player-two");
+  const startGameBtn = document.querySelector(".start-game-btn");
+  const startGame = document.querySelector(".start-game");
+  const gameWrapper = document.querySelector(".game-wrapper");
+
+  startGameBtn.addEventListener("click", startGameHandler);
+
+  function startGameHandler() {
+    const playerOneName = playerOneInput.value || "Player One";
+    const playerTwoName = playerTwoInput.value || "Player Two";
+
+    startGame.classList = "start-game";
+    gameWrapper.classList.add("active");
+    screenController(playerOneName, playerTwoName);
+  }
 })();
