@@ -191,7 +191,11 @@ function screenController(
       });
     });
 
-    if (status) overlayDiv.style.display = "block";
+    if (status) {
+      overlayDiv.style.display = "block";
+      playAgainBtn.textContent = "PLAY AGAIN?";
+      playAgainBtn.style.fontSize = "1.6rem";
+    }
     if (status && status.status === "win") colorWinningCells(status);
   };
 
@@ -235,6 +239,8 @@ function screenController(
   const restartGame = () => {
     game.newGame();
     displayMsg(`${game.getActivePlayer().name}'s turn.`);
+    playAgainBtn.textContent = "RESTART";
+    playAgainBtn.style.fontSize = "1.5rem";
     overlayDiv.style.display = "none";
     updateBoard("");
   };
