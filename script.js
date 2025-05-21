@@ -181,8 +181,8 @@ const screenController = (function () {
       row.forEach((cell, indexColumn) => {
         const newCell = document.createElement("button");
         newCell.classList = "cell";
-        newCell.dataset.indexNumber = indexRow;
-        newCell.dataset.columns = indexColumn;
+        newCell.dataset.row = indexRow;
+        newCell.dataset.column = indexColumn;
         newCell.textContent = cell.getValue();
         boardDiv.appendChild(newCell);
       });
@@ -194,8 +194,8 @@ const screenController = (function () {
 
   function placeOnClick(e) {
     const target = e.target;
-    const row = parseInt(target.dataset.indexNumber);
-    const column = parseInt(target.dataset.columns);
+    const row = parseInt(target.dataset.row);
+    const column = parseInt(target.dataset.column);
 
     const activePlayer = game.getActivePlayer();
 
