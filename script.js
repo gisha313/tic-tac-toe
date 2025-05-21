@@ -96,7 +96,7 @@ function GameController(player1 = "Player One", player2 = "Player Two") {
       currentColumn[0] === currentColumn[1] &&
       currentColumn[0] === currentColumn[2]
     )
-      return { status: "win", condition: `column ${row}` };
+      return { status: "win", condition: `column ${column}` };
 
     //check diagonals
 
@@ -167,6 +167,7 @@ const screenController = (function () {
   const boardDiv = document.querySelector(".board");
   const playAgainBtn = document.querySelector(".play-again");
   const msgDiv = document.querySelector(".msg");
+  const overlayDiv = document.querySelector(".overlay");
 
   let playerOneName = "Player X";
   let playerTwoName = "Player O";
@@ -189,6 +190,42 @@ const screenController = (function () {
         boardDiv.appendChild(newCell);
       });
     });
+
+    if (status) overlayDiv.style.display = "block";
+    if (status && status.status === "win") colorWinningCells(status);
+  };
+
+  const colorWinningCells = (status) => {
+    const winningCondition = status.condition.split(" ");
+    switch (winningCondition[0]) {
+      case "row":
+        const winningRows = document.querySelectorAll(
+          `.cell[data-row="${winningCondition[1]}"]`
+        );
+        winningRows.forEach(
+          (cell) => (cell.style.background = "rgb(0, 160, 0, 0.5)")
+        );
+        break;
+
+      case "column":
+        const winningColumns = document.querySelectorAll(
+          `.cell[data-column="${winningCondition[1]}"]`
+        );
+        winningColumns.forEach(
+          (cell) => (cell.style.background = "rgb(0, 160, 0, 0.5)")
+        );
+        break;
+
+      case "diagonal":
+        const winningDiagonal = document.querySelectorAll(
+          `.cell[data-diagonal${winningCondition[1]}="true"]`
+        );
+        winningDiagonal.forEach(
+          (cell) => (cell.style.background = "rgb(0, 160, 0, 0.5)")
+        );
+      default:
+        break;
+    }
   };
 
   const displayMsg = (msg) => {
@@ -197,6 +234,7 @@ const screenController = (function () {
 
   const restartGame = () => {
     game.newGame();
+    overlayDiv.style.display = "none";
     updateBoard("");
   };
 
@@ -211,7 +249,7 @@ const screenController = (function () {
     const round = game.playRound(row, column);
 
     if (round) {
-      updateBoard(round.status);
+      updateBoard(round.currentStatus);
       displayMsg(round.msg);
     }
   }
