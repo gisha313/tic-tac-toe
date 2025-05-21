@@ -142,7 +142,7 @@ function GameController(player1 = "Player One", player2 = "Player Two") {
 
     if (!playerMove) {
       console.log("Invalid move!");
-      return;
+      return false;
     }
 
     printNewRound();
@@ -158,9 +158,51 @@ function GameController(player1 = "Player One", player2 = "Player Two") {
       console.log("It's a tie!");
       newGame();
     }
+    return true;
   };
 
-  return { getActivePlayer, playRound };
+  return { getActivePlayer, playRound, newGame };
 }
 
-const game = GameController("Ognjen", "Ognjen 2");
+const screenController = (function () {
+  const boardDiv = document.querySelector(".board");
+  const playAgainBtn = document.querySelector(".play-again");
+
+  let playerOneName = "P1";
+  let playerTwoName = "P2";
+
+  const game = GameController(playerOneName, playerTwoName);
+
+  const restartGame = () => {
+    game.newGame();
+    boardDiv.innerHTML = "";
+
+    gameboard.getBoard().forEach((row, indexRow) => {
+      row.forEach((cell, indexColumn) => {
+        const newCell = document.createElement("button");
+        newCell.classList = "cell";
+        newCell.dataset.indexNumber = indexRow;
+        newCell.dataset.columns = indexColumn;
+        newCell.textContent = cell.getValue();
+        boardDiv.appendChild(newCell);
+      });
+    });
+  };
+
+  boardDiv.addEventListener("click", placeOnClick);
+  playAgainBtn.addEventListener("click", restartGame);
+
+  function placeOnClick(e) {
+    const target = e.target;
+    const row = parseInt(target.dataset.indexNumber);
+    const column = parseInt(target.dataset.columns);
+
+    const activePlayer = game.getActivePlayer();
+
+    if (game.playRound(row, column)) target.textContent = activePlayer.sign;
+  }
+
+  restartGame();
+
+  return { restartGame };
+})();
