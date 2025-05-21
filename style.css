@@ -22,6 +22,8 @@ body {
   display: none;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 6px;
 }
 
 .game-wrapper.active {
@@ -123,10 +125,12 @@ body {
   font-size: 1.1rem;
 }
 
-.start-game-btn {
+.start-game-btn,
+.play-again-btn {
   all: unset;
   font-size: 1.3rem;
   font-weight: 100;
+  text-align: center;
 
   border: 1px solid #444;
   background: #ccc;
@@ -136,7 +140,22 @@ body {
   transition: all 200ms;
 }
 
+.play-again-btn {
+  width: 200px;
+  font-size: 1.5rem;
+  padding: 8px 24px;
+}
+
 .start-game-btn:hover,
-.start-game-btn:focus {
+.start-game-btn:focus,
+.play-again-btn:hover,
+.play-again-btn:focus {
   background: #e4e4e4;
+}
+
+.msg {
+  font-size: 1.6rem;
+  font-weight: 200;
+  width: 100%;
+  padding-left: 20px;
 }
