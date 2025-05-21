@@ -40,6 +40,7 @@ body {
 .cell {
   width: calc(500px / 3);
   height: calc(500px / 3);
+  background: #ccc;
   border: 2px solid #aaa;
   border-collapse: collapse;
 
@@ -48,4 +49,10 @@ body {
   justify-content: center;
   font-weight: 400;
   font-size: calc(500px / 3);
+
+  transition: all 200ms;
+}
+
+.cell:hover {
+  background: #bbb;
 }
