@@ -35,6 +35,8 @@ body {
 
   border: 4px solid #555;
   border-collapse: collapse;
+
+  position: relative;
 }
 
 .cell {
@@ -56,4 +58,13 @@ body {
 
 .cell:hover {
   background: #bbb;
+}
+
+.overlay {
+  z-index: 9;
+  width: 100%;
+  height: 100%;
+  display: none;
+  background: rgb(100, 100, 100, 0.2);
+  position: absolute;
 }
